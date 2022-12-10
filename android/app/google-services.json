@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1065633034600",
+    "project_id": "inmotion-3a108",
+    "storage_bucket": "inmotion-3a108.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065633034600:android:a89080300f6bf0418fe6dd",
+        "android_client_info": {
+          "package_name": "com.example.inmotion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1065633034600-oso1lccuh6eckgl29qhut2ruitsmo30e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkNHIan48T9-a7z2RVhs1rCJFDARATlD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1065633034600-oso1lccuh6eckgl29qhut2ruitsmo30e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

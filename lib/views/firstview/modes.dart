@@ -79,6 +79,19 @@ class _PaymentModesState extends State<PaymentModes> {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ChoosePosition()));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Row(
+                      children: [Text('Подписка оформлена'), Icon(Icons.done)],
+                    ),
+                    action: SnackBarAction(
+                      label: 'Отмена',
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Подписка отменена')));
+                      },
+                    ),
+                  ));
                 },
                 child: Container(
                   height: 90,

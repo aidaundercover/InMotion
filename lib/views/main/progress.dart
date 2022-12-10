@@ -1,7 +1,10 @@
+import 'dart:async';
+import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:inmotion/utils/colors.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:inmotion/widgets/graph.dart';
+import 'package:just_audio/just_audio.dart';
 
 class Progress extends StatefulWidget {
   const Progress({Key? key}) : super(key: key);
@@ -10,7 +13,46 @@ class Progress extends StatefulWidget {
   State<Progress> createState() => _ProgressState();
 }
 
-class _ProgressState extends State<Progress> {
+class _ProgressState extends State<Progress> with TickerProviderStateMixin {
+  late AnimationController controller;
+
+  AudioPlayer player = AudioPlayer();
+
+  bool isVisible = false;
+
+  double value = 0;
+
+  double opacityLevel = 0.0;
+
+  void delay() {
+    Future.delayed(Duration(seconds: 1), () {
+      setState(() {
+        isVisible = true;
+      });
+      playSound();
+    });
+  }
+
+  void playSound() async {
+    player.setAsset('assets/sound/new_nft.mp3');
+    await player.play();
+  }
+
+  @override
+  initState() {
+    super.initState();
+    controller = BottomSheet.createAnimationController(this);
+    controller.duration = Duration(seconds: 2);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    player.dispose();
+    controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -113,86 +155,133 @@ class _ProgressState extends State<Progress> {
 
     return Scaffold(
         backgroundColor: Color.fromRGBO(245, 245, 245, 1.0),
-        floatingActionButton: TextButton(
-          onPressed: () {
-            Scaffold.of(context).showBottomSheet((context) => Container(
-                  decoration: BoxDecoration(boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        offset: Offset(0, 4),
-                        blurRadius: 20),
-                  ], color: Colors.white),
-                  height: height * 0.68,
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      //SizedBox(height: width*0.5,),
-                      Image.asset('assets/nft.png', width: width * 0.9),
-                      SizedBox(
-                        width: width * 0.84,
-                        child: Text(
-                          'Поделитесь своим NFT в социальных\nсетях или продайте на маркетплейсе',
-                          style: TextStyle(
-                            color: Color.fromRGBO(164, 164, 164, 1.0),
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Inter',
-                            fontSize: 16,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      TextButton(
-                          onPressed: () {},
-                          child: Container(
-                            width: width * 0.8,
-                            height: 70,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(23),
-                                boxShadow: [
-                                  BoxShadow(
-                                      offset: Offset(0, 4),
-                                      blurRadius: 20,
-                                      color: Color.fromRGBO(51, 51, 204, 0.3),
-                                      spreadRadius: 0)
-                                ]),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Поделиться',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 20),
-                                ),
-                                Icon(
-                                  Icons.share,
+        floatingActionButton: StatefulBuilder(
+          builder: (context, setState) => TextButton(
+            onPressed: () {
+              delay();
+              Scaffold.of(context).showBottomSheet(
+                  (context) => isVisible
+                      ? Container(
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                offset: Offset(0, 4),
+                                blurRadius: 20),
+                          ], color: Colors.white),
+                          height: height * 0.68,
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              //SizedBox(height: width*0.5,),
+                              AnimatedPhysicalModel(
+                                  duration: Duration(seconds: 2),
+                                  shadowColor: Colors.black,
+                                  elevation: 15,
                                   color: Colors.white,
-                                )
-                              ],
+                                  borderRadius: BorderRadius.circular(15),
+                                  shape: BoxShape.rectangle,
+                                  child: Image.asset('assets/nft.png',
+                                      width: width * 0.9)),
+                              SizedBox(
+                                width: width * 0.84,
+                                child: Text(
+                                  'Поделитесь своим NFT в социальных\nсетях или продайте на маркетплейсе',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(164, 164, 164, 1.0),
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'Inter',
+                                    fontSize: 16,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              TextButton(
+                                  onPressed: () async {
+                                    String link =
+                                        'https://opensea.io/assets/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/35517721513515028483277189311591890744434658480736960959522825893954241691649';
+                                    await Share.share(
+                                        'Я прошел тренировку в InMotion!\n\n$link');
+                                  },
+                                  child: Container(
+                                    width: width * 0.8,
+                                    height: 70,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius: BorderRadius.circular(23),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              offset: Offset(0, 4),
+                                              blurRadius: 20,
+                                              color: Color.fromRGBO(
+                                                  51, 51, 204, 0.3),
+                                              spreadRadius: 0)
+                                        ]),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Поделиться',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 20),
+                                        ),
+                                        Icon(
+                                          Icons.share,
+                                          color: Colors.white,
+                                        )
+                                      ],
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        )
+                      : Center(
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() => isVisible = true);
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'ГЕНЕРАЦИЯ...',
+                                    style: TextStyle(
+                                        fontFamily: 'Ruberoid',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 24),
+                                  ),
+                                  LinearProgressIndicator(
+                                    color: Colors.black,
+                                    minHeight: 20,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ))
-                    ],
-                  ),
-                ));
-          },
-          child: Container(
-            width: 70,
-            height: 70,
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: primaryColor),
-            alignment: Alignment.center,
-            child: Text(
-              'NFT',
-              style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                  fontFamily: 'Inter',
-                  fontSize: 22),
+                          ),
+                        ),
+                  transitionAnimationController: controller);
+            },
+            child: Container(
+              width: 70,
+              height: 70,
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: primaryColor),
+              alignment: Alignment.center,
+              child: Text(
+                'NFT',
+                style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                    fontFamily: 'Inter',
+                    fontSize: 22),
+              ),
             ),
           ),
         ),

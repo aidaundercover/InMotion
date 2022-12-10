@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inmotion/services/authentication.dart';
 import 'package:inmotion/utils/colors.dart';
+import 'package:inmotion/views/auth/signin.dart';
 import 'package:inmotion/views/firstview/modes.dart';
 
 class SignUp extends StatefulWidget {
@@ -217,6 +218,30 @@ class _SignUpState extends State<SignUp> {
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w600),
+                      ),
+                    )),
+                TextButton(
+                    onPressed: () {
+
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SignIn()));
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 75,
+                      width: width * 0.8,
+                      decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          border: Border.all(width: 3, color: Color.fromRGBO(51,51,51,1.0)),
+                          borderRadius: BorderRadius.circular(25),
+                          ),
+                      child: Text(
+                        'Уже есть аккаунт',
+                        style: TextStyle(
+                            fontSize: 22,
+                            color: Color.fromRGBO(51, 51, 51, 1.0),
                             fontFamily: 'Inter',
                             fontWeight: FontWeight.w600),
                       ),

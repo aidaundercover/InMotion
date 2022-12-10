@@ -12,9 +12,9 @@ class VideoFeed extends StatefulWidget {
 }
 
 class _VideoFeedState extends State<VideoFeed> {
-  final vpcOne = VideoPlayerController.asset('assets/videos/one.MP4');
-  final vpcTwo = VideoPlayerController.asset('assets/videos/two.MP4');
-  final vpcThree = VideoPlayerController.asset('assets/videos/three.MP4');
+  final vpcOne = VideoPlayerController.asset('assets/videos/one.mp4');
+  final vpcTwo = VideoPlayerController.asset('assets/videos/two.mp4');
+  final vpcThree = VideoPlayerController.asset('assets/videos/three.mp4');
 
   late ChewieController chewieOne;
   late ChewieController chewieTwo;
