@@ -64,6 +64,10 @@ dev_dependencies:
   share_plus: ^6.3.0
   just_audio: ^0.9.29
   countup: ^0.1.4
+  pedometer: ^3.0.0
+  lottie: ^1.2.2
+  image_picker:
+  dotted_border: ^2.0.0+3
 
 
 

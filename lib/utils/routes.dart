@@ -6,9 +6,10 @@ import 'package:inmotion/views/main/profile.dart';
 import 'package:inmotion/views/main/progress.dart';
 import 'package:inmotion/views/main/rating.dart';
 import 'package:inmotion/views/main/settings.dart';
-import 'package:inmotion/views/main/train.dart';
+import 'package:inmotion/views/exercises/dribling/dribling_ex.dart';
 
 import '../views/auth/signin.dart';
+import '../views/main/train.dart';
 
 class MyRoutes {
   MyRoutes._();

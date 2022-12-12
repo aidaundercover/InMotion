@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inmotion/main.dart';
 import 'package:inmotion/utils/colors.dart';
+import 'package:inmotion/views/firstview/add_data.dart';
 
 class ChoosePosition extends StatefulWidget {
   const ChoosePosition({Key? key}) : super(key: key);
@@ -75,7 +76,7 @@ class _ChoosePositionState extends State<ChoosePosition> {
                 width: width * 0.84,
                 child: GestureDetector(
                   onTap: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Main())),
+                      .push(MaterialPageRoute(builder: (context) => AddData())),
                   child: Column(
                     children: [
                       Text(

@@ -5,6 +5,11 @@ import 'package:inmotion/utils/colors.dart';
 import 'package:inmotion/widgets/roundbutton.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:pedometer/pedometer.dart';
+
+String formatDate(DateTime d) {
+  return d.toString().substring(0, 19);
+}
 
 class ExerciseOne extends StatefulWidget {
   const ExerciseOne({Key? key}) : super(key: key);
@@ -19,6 +24,10 @@ class _ExerciseOneState extends State<ExerciseOne>
       VideoPlayerController.asset('assets/videos/exercise.MP4');
   late ChewieController chewieController;
   late AnimationController controller;
+
+  late Stream<StepCount> _stepCountStream;
+  late Stream<PedestrianStatus> _pedestrianStatusStream;
+  String _status = '?', _steps = '?';
 
   double progress = 1.0;
   bool isPlaying = false;
@@ -36,10 +45,54 @@ class _ExerciseOneState extends State<ExerciseOne>
     }
   }
 
+  void onStepCount(StepCount event) {
+    print(event);
+    setState(() {
+      _steps = event.steps.toString();
+    });
+  }
+
+  void onPedestrianStatusChanged(PedestrianStatus event) {
+    print(event);
+    setState(() {
+      _status = event.status;
+    });
+  }
+
+  void onPedestrianStatusError(error) {
+    print('onPedestrianStatusError: $error');
+    setState(() {
+      _status = 'Pedestrian Status not available';
+    });
+    print(_status);
+  }
+
+  void onStepCountError(error) {
+    print('onStepCountError: $error');
+    setState(() {
+      _steps = 'Step Count not available';
+    });
+  }
+
+  void initPlatformState() {
+    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
+    _pedestrianStatusStream
+        .listen(onPedestrianStatusChanged)
+        .onError(onPedestrianStatusError);
+
+    _stepCountStream = Pedometer.stepCountStream;
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+
+    if (!mounted) return;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    initPlatformState();
+
     videoPlayerController.initialize();
 
     chewieController = ChewieController(
@@ -130,6 +183,50 @@ class _ExerciseOneState extends State<ExerciseOne>
               SizedBox(
                 height: 30,
               ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Сделано шагов:',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontFamily: 'Inter'),
+                        ),
+                        Text(
+                          '0',
+                          style: TextStyle(
+                              fontSize: 40,
+                              color: Colors.white,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          'В метрах:',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontFamily: 'Inter'),
+                        ),
+                        Text(
+                          '0',
+                          style: TextStyle(
+                              fontSize: 40,
+                              color: Colors.white,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    )
+                  ]),
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -185,7 +282,48 @@ class _ExerciseOneState extends State<ExerciseOne>
                     setState(() {
                       isPlaying = false;
                     });
-                    Navigator.of(context).pop();
+
+                    
+
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return Dialog(
+                            child: Container(
+                              height: 160,
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      'С завершением!',
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    '100XP',
+                                    style: TextStyle(
+                                        color: secondaryColor,
+                                        fontFamily: 'Ruberoid',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 50),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                    
+                    
                   },
                   child: Container(
                     width: width * 0.8,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inmotion/utils/colors.dart';
 import 'package:countup/countup.dart';
+import 'package:inmotion/views/main/social/new_post.dart';
 
 class Feed extends StatefulWidget {
   const Feed({Key? key}) : super(key: key);
@@ -153,7 +154,10 @@ class _FeedState extends State<Feed> {
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15))),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => CreatePost()));
+        },
         child: Icon(Icons.add),
         backgroundColor: primaryColor,
       ),

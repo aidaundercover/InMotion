@@ -7,6 +7,7 @@ import 'package:inmotion/views/firstview/get_started.dart';
 import 'package:inmotion/views/main/feed.dart';
 import 'package:inmotion/views/main/profile.dart';
 import 'package:inmotion/views/main/progress.dart';
+import 'package:inmotion/views/exercises/dribling/dribling_ex.dart';
 import 'package:inmotion/views/main/train.dart';
 import 'package:inmotion/views/main/video_feed.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';

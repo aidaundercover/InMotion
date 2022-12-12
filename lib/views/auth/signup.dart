@@ -31,7 +31,7 @@ class _SignUpState extends State<SignUp> {
           child: Center(
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 35,
                 ),
                 SizedBox(
@@ -39,12 +39,12 @@ class _SignUpState extends State<SignUp> {
                 SizedBox(
                   height: height * 0.14,
                 ),
-                Text('Регистрация',
+                const Text('Регистрация',
                     style: TextStyle(
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.bold,
                         fontSize: 33)),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Form(
@@ -187,15 +187,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 TextButton(
                     onPressed: () {
-                      // if (name.text.isNotEmpty &&
-                      //     email.text.isNotEmpty &&
-                      //     password.text.isNotEmpty) {
-                      //   Auth.signUp(
-                      //       name.text, email.text, password.text, context);
-                      // } else
-                      //   showBottomSheet(
-                      //       context: context,
-                      //       builder: (context) => Text(''));
+
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => PaymentModes()));
                     },

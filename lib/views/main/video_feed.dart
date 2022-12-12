@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inmotion/utils/colors.dart';
 import 'package:inmotion/widgets/demo.dart';
 import 'package:tiktoklikescroller/tiktoklikescroller.dart';
 import 'package:chewie/chewie.dart';
@@ -109,6 +110,50 @@ class _VideoFeedState extends State<VideoFeed> {
     List controllers = [chewieOne, chewieTwo, chewieThree];
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return Dialog(
+                child: Container(
+                  height: 280,
+                  decoration: BoxDecoration(
+                    
+                  ),
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      // SizedBox(
+                      //   width: width*0.8,
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.end,
+                      //     children: [
+                      //       Icon(Icons.close)
+                      //     ],
+                      //   ),
+                      // ),
+                      Text('Осталось:', style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                      ),),
+                      Text('19 мин 14 сек', style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 30,
+                            color: primaryColor
+                          ),),
+                      Text('В бесплатной версии, время на ленту ограничено. Обретайте\nподписку или зарабатываете очки тренируясь в приложении', textAlign: TextAlign.center, style: TextStyle(fontFamily: 'Inter', fontSize: 14, ),)
+                    ],
+                  ),
+                ),
+              );
+            });
+      },
+      child: Icon(Icons.timer, color: Colors.white, size: 40,),
+      backgroundColor: primaryColor,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: Stack(alignment: Alignment.topCenter, children: [
         Padding(
           padding: const EdgeInsets.only(top: 20.0),
